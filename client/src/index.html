@@ -1,4 +1,5 @@
-<html lang="en">
+<html ng-app="TradeNet">
+
 <head>
     <title>TradeNet</title>
     <meta charset="UTF-8">
@@ -7,7 +8,28 @@
 </head>
 
 <body layout="column" layout-margin>
+
+    <div class="container">
+        <div ng-view></div>
+    </div>
+
+    <!-- Log Out button -->
+    <div ng-controller="logoutController">
+        <a ng-click='logout()' class="btn btn-default">Log Out</a>
+    </div>
+
     <tn-symbol-info md-whiteframe="3" style="padding:10px;"></tn-symbol-info>
+
+    <!-- Scripts -->
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js"></script>
+    <script src="./main.js"></script>
+    <script src="./services.js"></script>
+    <script src="./controllers.js"></script>
+    <!-- t.c. Should this be app.js in the server folder? -->
     <script src="app.js"></script>
 </body>
+
 </html>
