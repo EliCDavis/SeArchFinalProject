@@ -11,12 +11,17 @@
 
     <tn-toolbar></tn-toolbar>
 
+
     <!-- Displays partial chosen by client/src/main.js -->
-    <div layout="column" flex ng-view></div>
+    <div class="container">
+        <div ng-view></div>
+    </div>
+
+    <tn-symbol-info md-whiteframe="3" style="padding:10px;"></tn-symbol-info>
 
     <!-- Scripts -->
     <script src="app.js"></script>
-    
+
 </body>
 
 </html>
