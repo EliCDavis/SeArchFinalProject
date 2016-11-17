@@ -2,15 +2,18 @@ var angular = require('angular');
 
 require('angular-material');
 require('rx-angular');
+require('angular-route');
 
 var app = angular.module('TradeNet', ['ngMaterial', 'rx', 'ngRoute'])
 
 require('./services');
 require('./directives');
-
-angular.bootstrap(document, ['TradeNet']);
-
+require('./controllers');
+console.log("Before routing");
 app.config(function($routeProvider) {
+
+    console.log("route: ", $routeProvider);
+
     $routeProvider
         .when('/', {
             templateUrl: 'partial/home.html',
@@ -42,3 +45,22 @@ app.config(function($routeProvider) {
             redirectTo: '/'
         });
 });
+
+
+app.run(function ($rootScope, $location, $route, AuthService) {
+  $rootScope.$on('$routeChangeStart',
+    function (event, next, current) {
+      AuthService.getUserStatus()
+      .then(function(){
+        if (next.access.restricted && !AuthService.isLoggedIn()){
+          $location.path('/login');
+          $route.reload();
+        }
+      });
+  });
+});
+
+
+
+
+angular.bootstrap(document, ['TradeNet']);

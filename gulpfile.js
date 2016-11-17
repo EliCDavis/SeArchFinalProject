@@ -73,6 +73,6 @@ gulp.task('debug', ['copy', 'concat-css'], function () {
             .transform(ngAnnotate)
             .bundle()
             .pipe(source('app.js'))
-            .pipe(gulp.dest('./dist'));
+            .pipe(gulp.dest('client/dist'));
 
 });

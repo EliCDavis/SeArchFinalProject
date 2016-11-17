@@ -15,14 +15,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressSession = require('express-session');
 var mongoose = require('mongoose');
-var hash = require('bcryptjs');
+var hash = require('bcrypt-nodejs');
 var path = require('path');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
-var routes = require('./routes/api.js');
+var routes = require('./routes/login-api.js');
 
 // mongoose
-mongoose.connect('mongodb://localhost/mean-auth');
+mongoose.connect('mongodb://localhost/user-auth');
 
 // User schema/model
 var User = require('./models/user.js');
