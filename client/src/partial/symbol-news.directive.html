@@ -1,0 +1,6 @@
+<div layout="column">
+    <div md-whiteframe="3" style="padding:10px; margin:10px;" ng-repeat="article in symbolnews.news">
+        <p ng-bind="article.data.title"></p>
+        <a ng-href="{{article.data.url}}" target="_blank">Read More..</a>
+    </div>
+</div>

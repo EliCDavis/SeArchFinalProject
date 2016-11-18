@@ -1,17 +1,20 @@
-<div class="col-md-4">
-    <h1>Login</h1>
-    <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-    <form class="form" ng-submit="login()">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" class="form-control" name="username" ng-model="loginForm.username" required>
-        </div>
-        <div class="form-group">
+<div layout="column" flex layout-align="center center" >
+    <div md-whiteframe="3" layout="column" style="background-color:white; padding:20px;">
+
+        <h1>Login</h1>
+        <div role="alert" ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="loginForm.username" type="email" required>
+        </md-input-container>
+        
+        <md-input-container>
             <label>Password</label>
-            <input type="password" class="form-control" name="password" ng-model="loginForm.password" required>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-default" ng-disabled="disabled">Login</button>
-        </div>
-    </form>
+            <input ng-model="loginForm.password" type="password" required>
+        </md-input-container>
+
+        <md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
+        <md-button md-no-ink class="md-primary" ng-click="register()">Register</md-button>
+    </div>
 </div>

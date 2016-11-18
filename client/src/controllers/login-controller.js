@@ -3,8 +3,6 @@ module.exports = loginController;
 /* @ngInject */
 function loginController($scope, $location, AuthService) {
 
-    console.log("Login controller up!");
-
     $scope.login = function() {
 
         // initial values
@@ -28,5 +26,9 @@ function loginController($scope, $location, AuthService) {
             });
 
     };
+
+    $scope.register = function() {
+        $location.path('/register');
+    }
 
 }

@@ -1,17 +1,30 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var config = require('../../config.json');
+
+var MailboxlayerWrapper = new(require('../wrappers/mailboxlayer'))(config.mailboxKey);
 
 var User = require('../models/user.js');
 
 // Registration
 router.post('/register', function(req, res) {
-    User.register(new User({
+
+    MailboxlayerWrapper.validateEmail(req.body.username, function(succ){
+
+        if(succ["smtp_check"] === false){
+            console.log("WAS FALSE");
+            return res.status(500).json({
+                    err: "Invalid email"
+                });
+        }
+
+        User.register(new User({
             username: req.body.username
-        }),
-        req.body.password,
-        function(err, account) {
+        }), req.body.password, function(err, account) {
+            
             if (err) {
+                console.log("Error Registering Account: (", err, ")");
                 return res.status(500).json({
                     err: err
                 });
@@ -22,6 +35,15 @@ router.post('/register', function(req, res) {
                 });
             });
         });
+
+    }, function(err){
+        console.log("Error hitting mailbox, err: ", err);
+        return res.status(500).json({
+            err: err
+        });
+    });
+
+    
 });
 
 // Login

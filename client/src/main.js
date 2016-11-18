@@ -9,7 +9,7 @@ var app = angular.module('TradeNet', ['ngMaterial', 'rx', 'ngRoute'])
 require('./services');
 require('./directives');
 require('./controllers');
-console.log("Before routing");
+
 app.config(function($routeProvider) {
 
     console.log("route: ", $routeProvider);
@@ -17,6 +17,7 @@ app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'partial/home.html',
+            controller: 'homeController',
             access: {
                 restricted: true
             }
@@ -55,12 +56,10 @@ app.run(function ($rootScope, $location, $route, AuthService) {
         if (next.access.restricted && !AuthService.isLoggedIn()){
           $location.path('/login');
           $route.reload();
-        }
+        } 
       });
   });
 });
-
-
 
 
 angular.bootstrap(document, ['TradeNet']);

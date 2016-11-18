@@ -106,15 +106,17 @@ function AuthService ($q, $timeout, $http) {
             })
             // handle success
             .success(function(data, status) {
+                console.log("Succesfully Created User");
                 if (status === 200 && data.status) {
                     deferred.resolve();
                 } else {
-                    deferred.reject();
+                    deferred.reject(data);
                 }
             })
             // handle error
             .error(function(data) {
-                deferred.reject();
+                console.log("Error Creating User", data);
+                deferred.reject(data);
             });
 
         // return promise object

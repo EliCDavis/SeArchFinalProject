@@ -1,7 +1,33 @@
-<div ng-controller="logoutController">
-    <a ng-click='logout()' class="btn btn-default">Log Out</a>
+<div layout="column" flex layout-margin>
+
+
+    <div layout="row">
+
+        <md-input-container class="md-block" style="margin:0px;" flex-gt-sm>
+            <label>Search</label>
+            <input ng-model="searchQuery">
+        </md-input-container>
+
+        <md-button class="md-raised md-primary" ng-click='search()'>Search</md-button>
+
+        <div ng-controller="logoutController">
+            <md-button class="md-raised md-primary" ng-click='logout()'>Log Out</md-button>
+        </div>
+
+    </div>
+
+    <h1 ng-bind="lastSearced"></h1>
+    <tn-symbol-info layout="row" layout-align="space-around center"></tn-symbol-info>
+
+    <div layout="row" flex>
+        <div flex="50" layout="column">
+            <h3> News </h3>
+            <tn-symbol-news style="padding:10px; overflow:auto;"></tn-symbol-news>
+        </div>
+
+        <div flex="50" layout="column">
+            <h3>Tweets</h3>
+            <tn-symbol-tweets style="padding:10px; overflow:auto;"></tn-symbol-tweets>
+        </div>
+    </div>
 </div>
-
-<p>this is home.html</p>
-
-<tn-symbol-info md-whiteframe="3" style="padding:10px;"></tn-symbol-info>

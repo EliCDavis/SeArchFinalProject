@@ -7,21 +7,16 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body layout="column" layout-margin>
+<body layout="column">
+
+    <tn-toolbar></tn-toolbar>
 
     <!-- Displays partial chosen by client/src/main.js -->
-    <div class="container">
-        <div ng-view></div>
-    </div>
-
-    <p>this is index.html</p>
-
-    <tn-symbol-info md-whiteframe="3" style="padding:10px;"></tn-symbol-info>
+    <div layout="column" flex ng-view></div>
 
     <!-- Scripts -->
-    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-    <!-- t.c. Should this be server/app.js instead? -->
     <script src="app.js"></script>
+    
 </body>
 
 </html>

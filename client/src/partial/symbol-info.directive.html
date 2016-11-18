@@ -1,5 +1,16 @@
-<h3 ng-bind="symbolInfo.name"></h3>
-Price: <span ng-bind="symbolInfo.info.close"></span> <br/>
-Change: <span ng-bind="symbolInfo.info.change"></span> <br/>
-Change Percentage: <span ng-bind="symbolInfo.info.change_percentage"></span> <br/>
-Volume: <span ng-bind="symbolInfo.info.volume"></span> <br/>
+
+<span>
+Price: <span ng-bind="symbolInfo.info.prevclose"></span>$
+</span>
+
+<span>
+Change: <span ng-bind="symbolInfo.info.change"></span>
+</span>
+
+<span>
+Change Percentage: <span ng-bind="symbolInfo.info.change_percentage"></span>%
+</span>
+
+<span>
+Volume: <span ng-bind="symbolInfo.info.volume"></span>
+</span>
