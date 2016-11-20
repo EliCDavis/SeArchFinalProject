@@ -2,7 +2,7 @@
 module.exports = homeController;
 
 /* @ngInject */
-function homeController($scope, $location, Server) {
+function homeController($scope, $location, Server, $route) {
 
     $scope.searchQuery = "";
 
@@ -14,11 +14,13 @@ function homeController($scope, $location, Server) {
         return false;
     })).startWith(false);
 
+
     $scope.showSymbolFailure$ = Server.tradierSymbol$.map(function(symbol){
         return symbol.quotes.unmatched_symbols !== undefined;
     }).merge(Server.lastSearched$.map(function(d){
         return false;
     })).startWith(false);
+
 
     $scope.currentlySearching$ = Server.tradierSymbol$.map(function(symbol){
         return false;
@@ -26,14 +28,16 @@ function homeController($scope, $location, Server) {
         return true;
     })).startWith(false);
 
+
     $scope.search = function() {
-        var query = $scope.searchQuery.toUpperCase();
-        Server.search(query);
-        $scope.lastSearced = query;
+        $location.path('/market/'+$scope.searchQuery.trim().toUpperCase());
     };
 
-    Server.tradierSymbol$.subscribe(function(symbol){
-        console.log("Symbol: ", symbol);
-    });
+    if($route.current.params.symbol){
+        $scope.searchQuery = $route.current.params.symbol;
+        var query = $scope.searchQuery.trim().toUpperCase();
+        Server.search(query);
+        $scope.lastSearced = query;
+    }
 
-};
+}

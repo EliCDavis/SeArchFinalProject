@@ -63,8 +63,12 @@ router.post('/login', function (req, res, next) {
                 });
             }
             res.status(200).json({
-                status: 'User signed in'
+                status: 'User signed in',
+                user: {
+                    "email": user.username
+                }
             });
+            console.log("User Logged In: ",user);
         });
     })(req, res, next);
 });
@@ -85,8 +89,11 @@ router.get('/status', function (req, res) {
             status: false
         });
     }
+    console.log("status: ", req._passport.session.user);
+    
     res.status(200).json({
-        status: true
+        status: true,
+        user: req._passport.session.user
     });
 });
 

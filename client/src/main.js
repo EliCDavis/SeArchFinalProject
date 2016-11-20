@@ -23,9 +23,30 @@ app.config(['$provide', function ($provide) {
 app.config(function ($routeProvider) {
 
     $routeProvider
-        .when('/', {
-            templateUrl: 'partial/home.html',
-            controller: 'homeController',
+        .when('/market', {
+            templateUrl: 'partial/market.html',
+            controller: 'marketController',
+            access: {
+                restricted: true
+            }
+        })
+        .when('/market/:symbol', {
+            templateUrl: 'partial/market.html',
+            controller: 'marketController',
+            access: {
+                restricted: true
+            }
+        })
+        .when('/profile', {
+            templateUrl: 'partial/profile.html',
+            controller: 'profileController',
+            access: {
+                restricted: true
+            }
+        })
+        .when('/profile/:userName', {
+            templateUrl: 'partial/profile.html',
+            controller: 'profileController',
             access: {
                 restricted: true
             }

@@ -2,10 +2,12 @@
     <div class="md-toolbar-tools">
         
         <h2>
-            <span>Tradenet</span>
+            Tradenet
         </h2>
+
         <span flex></span>
 
+        <md-button ng-show="toolbar.loggedIn$" class="md-raised md-primary" ng-click='toolbar.viewProfile()'>Profile</md-button>
         <md-button ng-show="toolbar.loggedIn$" class="md-raised md-primary" ng-click='toolbar.logout()'>Log Out</md-button>
 
     </div>

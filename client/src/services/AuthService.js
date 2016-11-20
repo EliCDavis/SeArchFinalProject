@@ -13,6 +13,7 @@ function AuthService ($q, $timeout, $http) {
             // handle success
             .success(function(data) {
 
+                console.log("get status", data);
                 loggedIn$.onNext(data.status? true:false);
 
             })
@@ -41,12 +42,12 @@ function AuthService ($q, $timeout, $http) {
                     deferred.reject();
                 }
 
-                loggedIn$.onNext(status === 200 && data.status);
+                loggedIn$.onNext(data.user);
                 
             })
             // handle error
             .error(function(data) {
-                loggedIn$.onNext(false);
+                loggedIn$.onNext(null);
                 deferred.reject();
             });
 
@@ -71,7 +72,7 @@ function AuthService ($q, $timeout, $http) {
                 deferred.reject();
             });
 
-        loggedIn$.onNext(false);
+        loggedIn$.onNext(null);
 
         // return promise object
         return deferred.promise;
