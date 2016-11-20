@@ -1,6 +1,5 @@
 <div layout="column" flex layout-margin>
 
-
 	<div md-whiteframe="6" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" layout="row">
 
 		<md-input-container class="md-block" flex-gt-sm>
@@ -14,19 +13,36 @@
 
 	</div>
 
-	<div layout="row" flex>
+	<div ng-show="showSymbolFailure$" layout="column" layout-align="center center" flex>
+
+		<center ng-show="showSymbolFailure$">
+			<h3>Couldn't Find Anything</h3>
+			<h4>Sorry about that</h4>
+		</center>
+
+	</div>
+
+	<div ng-show="currentlySearching$" layout="column" layout-align="center center" flex>
+
+		<center ng-show="currentlySearching$">
+			<h3>Searching For Symbol...</h3>
+			<md-progress-circular md-diameter="96"></md-progress-circular>
+			<h4>Excuse us for the wait</h4>
+		</center>
+
+	</div>
+
+	<div ng-show="showSymbolInfo$" layout="row" flex>
 
 		<div layout="column" flex>
 
 			<div md-whiteframe="6" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;">
-				<h1 ng-bind="lastSearced" style="margin-left:15px;"></h1>
 				<tn-symbol-info layout="row" layout-align="space-around center"></tn-symbol-info>
 			</div>
 
 			<tn-symbol-graph layout="column" flex md-whiteframe="3" style="padding:15px; margin:10px; background-color:white;"></tn-symbol-graph>
 
 			<tn-symbol-options md-whiteframe="3" style="padding:10px; margin:10px; background-color:white;"></tn-symbol-options>
-
 
 		</div>
 
