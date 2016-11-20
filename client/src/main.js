@@ -1,18 +1,26 @@
 var angular = require('angular');
+var rxDecorateDirective = require('./3rdParty/rxDecorateDirective');
 
 require('angular-material');
 require('rx-angular');
 require('angular-route');
+require('tc-angular-chartjs');
 
-var app = angular.module('TradeNet', ['ngMaterial', 'rx', 'ngRoute'])
+var app = angular.module('TradeNet', ['ngMaterial', 'rx', 'ngRoute', 'tc.chartjs']);
 
 require('./services');
 require('./directives');
 require('./controllers');
 
-app.config(function($routeProvider) {
+app.config(['$provide', function ($provide) {
+    rxDecorateDirective($provide, 'ngShow');
+    rxDecorateDirective($provide, 'ngHide');
+    rxDecorateDirective($provide, 'ngDisabled');
+    rxDecorateDirective($provide, 'ngIf');
+    rxDecorateDirective($provide, 'ngBind');
+}]);
 
-    console.log("route: ", $routeProvider);
+app.config(function ($routeProvider) {
 
     $routeProvider
         .when('/', {
@@ -49,16 +57,16 @@ app.config(function($routeProvider) {
 
 
 app.run(function ($rootScope, $location, $route, AuthService) {
-  $rootScope.$on('$routeChangeStart',
-    function (event, next, current) {
-      AuthService.getUserStatus()
-      .then(function(){
-        if (next.access.restricted && !AuthService.isLoggedIn()){
-          $location.path('/login');
-          $route.reload();
-        } 
-      });
-  });
+    $rootScope.$on('$routeChangeStart',
+        function (event, next, current) {
+            AuthService.getUserStatus()
+                .then(function () {
+                    if (next.access.restricted && !AuthService.loggedIn$.getValue()) {
+                        $location.path('/login');
+                        $route.reload();
+                    }
+                });
+        });
 });
 
 

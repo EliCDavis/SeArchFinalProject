@@ -1,6 +1,12 @@
 
 <div layout="column">
-    <div md-whiteframe="3" style="padding:10px; margin:10px;" ng-repeat="tweet in symboltweet.tweets">
+    <div md-whiteframe="3" style="padding:10px; margin:10px;background-color:white" ng-repeat="tweet in symboltweet.tweets">
         <span ng-bind="tweet.text"></span>
     </div>
+
+    <center ng-hide="symboltweet.finnishedLoading$">
+        <h3>Loading News..</h3>
+        <md-progress-circular md-diameter="96"></md-progress-circular>
+        <h4>Excuse us for the wait</h4>
+    </center>
 </div>

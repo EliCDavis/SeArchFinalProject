@@ -1,5 +1,4 @@
 
-
 var Rx = require('rx');
 
 module.exports = Server;
@@ -18,6 +17,8 @@ function Server($http) {
     self.symbolTweet$ = new Rx.ReplaySubject(1);
 
     self.symbolNews$ = new Rx.ReplaySubject(1);
+
+    self.symbolTimeSeries$ = new Rx.ReplaySubject(1);
     
     /**
      * Grabs information about a specific symbol and pushes information
@@ -34,7 +35,7 @@ function Server($http) {
             self.tradierSymbol$.onNext(x.data);
         });
 
-    }
+    };
 
 
     self.getSymbolTweets = function(symbol) {
@@ -46,7 +47,7 @@ function Server($http) {
             self.symbolTweet$.onNext(x.data);
         });
 
-    }
+    };
 
     self.getSymbolNews = function(symbol) {
         
@@ -57,13 +58,25 @@ function Server($http) {
             self.symbolNews$.onNext(x.data);
         });
 
-    }
+    };
+
+    self.getSymbolTimeSeries = function(symbol) {
+        
+        $http({
+            method: 'GET',
+            url: '/api/getSymbolTimeSeries/' + symbol
+        }).then(function(x){
+            self.symbolTimeSeries$.onNext(x.data);
+        });
+
+    };
 
     self.search = function (symbol) {
         self.lastSearched$.onNext(symbol);
         self.getSymbol(symbol);
         self.getSymbolTweets(symbol);
         self.getSymbolNews(symbol);
-    }
+        self.getSymbolTimeSeries(symbol);
+    };
 
 }

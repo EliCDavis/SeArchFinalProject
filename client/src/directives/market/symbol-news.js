@@ -19,6 +19,15 @@ function SymbolNewsDirective() {
                 self.news = {};
             }).subscribe();
 
+
+            // Whether or not we've finished loading
+            self.finnishedLoading$ = Server.lastSearched$.map(function(d){
+                return false;
+            }).merge(Server.symbolNews$.map(function (d) {
+                return true;
+            })).startWith(false).share();
+
+
             Server.symbolNews$.safeApply($scope, function(data) {
                 console.log('Info from news directive: ', data.data.children);
                 self.news = data.data.children;

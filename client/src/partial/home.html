@@ -1,34 +1,48 @@
 <div layout="column" flex layout-margin>
 
 
-    <div layout="row">
+	<div md-whiteframe="6" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" layout="row">
 
-        <md-input-container class="md-block" style="margin:0px;" flex-gt-sm>
-            <label>Search</label>
-            <input ng-model="searchQuery">
-        </md-input-container>
+		<md-input-container class="md-block" flex-gt-sm>
+			<form autocomplete="off" ng-submit="search()">
+				<label>Search</label>
+				<input ng-model="searchQuery">
+			</form>
+		</md-input-container>
 
-        <md-button class="md-raised md-primary" ng-click='search()'>Search</md-button>
+		<md-button class="md-raised md-primary" ng-click='search()'>Search</md-button>
 
-        <div ng-controller="logoutController">
-            <md-button class="md-raised md-primary" ng-click='logout()'>Log Out</md-button>
-        </div>
+	</div>
 
-    </div>
+	<div layout="row" flex>
 
-    <h1 ng-bind="lastSearced"></h1>
-    <tn-symbol-info layout="row" layout-align="space-around center"></tn-symbol-info>
+		<div layout="column" flex>
 
-    <div layout="row" flex>
-        <div flex="50" layout="column">
-            <h3> News </h3>
-            <tn-symbol-news style="padding:10px; overflow:auto;"></tn-symbol-news>
-        </div>
+			<div md-whiteframe="6" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;">
+				<h1 ng-bind="lastSearced" style="margin-left:15px;"></h1>
+				<tn-symbol-info layout="row" layout-align="space-around center"></tn-symbol-info>
+			</div>
 
-        <div flex="50" layout="column">
-            <h3>Tweets</h3>
-            <tn-symbol-tweets style="padding:10px; overflow:auto;"></tn-symbol-tweets>
-        </div>
-    </div>
+			<tn-symbol-graph layout="column" flex md-whiteframe="3" style="padding:15px; margin:10px; background-color:white;"></tn-symbol-graph>
+
+			<tn-symbol-options md-whiteframe="3" style="padding:10px; margin:10px; background-color:white;"></tn-symbol-options>
+
+
+		</div>
+
+		<div layout="column" flex="40">
+
+			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex="50" layout="column">
+				<h3> Tweets</h3>
+				<tn-symbol-tweets style="padding:10px; overflow:auto;"></tn-symbol-tweets>
+			</div>
+
+			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex="50" layout="column">
+				<h3> News </h3>
+				<tn-symbol-news style="padding:10px; overflow:auto;"></tn-symbol-news>
+			</div>
+
+		</div>
+
+	</div>
 </div>
-

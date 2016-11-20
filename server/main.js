@@ -10,6 +10,7 @@ var TwitterWrapper = new(require('./wrappers/twitter'))(config.tw_consumer_key,
                                                         config.tw_access_token_key,
                                                         config.tw_access_token_secret);
 var TradierWrapper = new(require('./wrappers/tradier'))(config.tradierKey);
+var QuandlWrapper = new(require('./wrappers/quandl'))(config.quandlKey);
 var RedditWrapper = new(require('./wrappers/reddit'))();
 
 // Dependencies for the server
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.get('/api/twitter/:symbol', TwitterWrapper.search);
 app.get('/api/getSymbol/:symbol', TradierWrapper.getSymbol);
 app.get('/api/reddit/:headline', RedditWrapper.getHeadlines);
+app.get('/api/getSymbolTimeSeries/:symbol', QuandlWrapper.getSymbol);
 app.use('/user/', require('./routes/login-api.js'));
 
 // Launch server

@@ -1,9 +1,12 @@
-<md-toolbar style="max-height:40px; min-height:40px;" class="md-hue-2">
+<md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
         
         <h2>
             <span>Tradenet</span>
         </h2>
         <span flex></span>
+
+        <md-button ng-show="toolbar.loggedIn$" class="md-raised md-primary" ng-click='toolbar.logout()'>Log Out</md-button>
+
     </div>
 </md-toolbar>
