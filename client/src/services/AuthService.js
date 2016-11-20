@@ -14,12 +14,12 @@ function AuthService ($q, $timeout, $http) {
             .success(function(data) {
 
                 console.log("get status", data);
-                loggedIn$.onNext(data.status? true:false);
+                loggedIn$.onNext(data.status?data: null);
 
             })
             // handle error
             .error(function(data) {
-                loggedIn$.onNext(false);
+                loggedIn$.onNext(null);
             });
     }
 

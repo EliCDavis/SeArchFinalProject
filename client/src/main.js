@@ -82,7 +82,7 @@ app.run(function ($rootScope, $location, $route, AuthService) {
         function (event, next, current) {
             AuthService.getUserStatus()
                 .then(function () {
-                    if (next.access.restricted && !AuthService.loggedIn$.getValue()) {
+                    if (!next.access || (next.access.restricted && AuthService.loggedIn$.getValue() === null) ) {
                         $location.path('/login');
                         $route.reload();
                     }

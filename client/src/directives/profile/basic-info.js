@@ -1,4 +1,7 @@
+
 module.exports = BasicInfoDirective;
+
+var md5 = require('md5');
 
 /**
  * @ngInject
@@ -14,10 +17,16 @@ function BasicInfoDirective() {
             var self = this;
 
             $scope.email$ = AuthService.loggedIn$.filter(function(d){
-                return d.email;
-            }).map($scope, function(user){
-               return d.email; 
+                return d !== null && !!d.user;
+            }).map(function(d){
+               return d.user.username; 
             });
+
+            $scope.emailHash = "";
+
+            $scope.emailHash$ = $scope.email$.map(md5).safeApply($scope, function(hash){
+                $scope.emailHash = hash;
+            }).subscribe();
 
         }
     };

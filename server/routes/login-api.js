@@ -93,7 +93,7 @@ router.get('/status', function (req, res) {
     
     res.status(200).json({
         status: true,
-        user: req._passport.session.user
+        user: req.user
     });
 });
 
