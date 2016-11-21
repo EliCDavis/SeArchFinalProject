@@ -86,7 +86,7 @@ function AuthService ($q, $timeout, $http) {
 
         // send a post request to the server
         $http.post('/user/register', {
-                username: username,
+                email: username,
                 password: password
             })
             // handle success

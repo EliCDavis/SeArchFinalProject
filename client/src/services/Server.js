@@ -12,7 +12,7 @@ function Server($http) {
 
     self.lastSearched$ = new Rx.ReplaySubject(1);
 
-    self.tradierSymbol$ = new Rx.ReplaySubject(1);
+    self.tradierSymbol$ = new Rx.BehaviorSubject(null);
 
     self.symbolTweet$ = new Rx.ReplaySubject(1);
 
@@ -78,5 +78,43 @@ function Server($http) {
         self.getSymbolNews(symbol);
         self.getSymbolTimeSeries(symbol);
     };
+
+    self.purchaseStock = function(symbol, price, amount){
+
+        var resp = new Rx.ReplaySubject(1);
+
+        $http.post('/transaction/purchase', {
+                symbol: symbol,
+                price: price,
+                amount: amount
+            })
+            .success(function(data, status) {
+                resp.onNext({
+                    data: data,
+                    status: status
+                });
+            })
+            .error(function(data) {
+                resp.onNext({
+                    data: data
+                });
+            });
+
+        return resp;
+    };
+
+    self.viewTransactions = function() {
+
+        var resp = new Rx.ReplaySubject(1);
+
+        $http({
+            method: 'GET',
+            url: '/transaction/view'
+        }).then(function(x){
+            resp.onNext(x.data);
+        });
+
+        return resp;
+    }
 
 }

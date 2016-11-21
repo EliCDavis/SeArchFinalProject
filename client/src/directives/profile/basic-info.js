@@ -19,7 +19,7 @@ function BasicInfoDirective() {
             $scope.email$ = AuthService.loggedIn$.filter(function(d){
                 return d !== null && !!d.user;
             }).map(function(d){
-               return d.user.username; 
+               return d.user.email; 
             });
 
             $scope.emailHash = "";

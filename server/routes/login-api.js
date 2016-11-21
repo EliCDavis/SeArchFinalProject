@@ -8,9 +8,9 @@ var MailboxlayerWrapper = new (require('../wrappers/mailboxlayer'))(config.mailb
 var User = require('../models/user.js');
 
 // Registration
-router.post('/register', function (req, res) {
+router.post('/register', function(req, res, next) {
 
-    MailboxlayerWrapper.validateEmail(req.body.username, function (succ) {
+    MailboxlayerWrapper.validateEmail(req.body.email, function(succ) {
 
         if (succ.smtp_check === false) {
             return res.status(500).json({
@@ -18,9 +18,7 @@ router.post('/register', function (req, res) {
             });
         }
 
-        User.register(new User({
-            username: req.body.username
-        }), req.body.password, function (err, account) {
+        passport.authenticate('local.signup', function(err, user, info) {
 
             if (err) {
                 console.log("Error Registering Account: (", err, ")");
@@ -28,14 +26,21 @@ router.post('/register', function (req, res) {
                     err: err
                 });
             }
-            passport.authenticate('local')(req, res, function () {
-                return res.status(200).json({
-                    status: 'New user registered'
-                });
-            });
-        });
 
-    }, function (err) {
+            if (user === false) {
+                console.log("Error Registering Account: (", info, ")");
+                return res.status(500).json({
+                    err: info.message
+                });
+            }
+
+            return res.status(200).json({
+                status: 'New user registered'
+            });
+
+        })(req, res, next);
+
+    }, function(err) {
         console.log("Error hitting mailbox, err: ", err);
         return res.status(500).json({
             err: err
@@ -46,8 +51,11 @@ router.post('/register', function (req, res) {
 });
 
 // Login
-router.post('/login', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local.signin', function(err, user, info) {
+
+        console.log("Login info: ", info);
+
         if (err) {
             return next(err);
         }
@@ -56,7 +64,7 @@ router.post('/login', function (req, res, next) {
                 err: info
             });
         }
-        req.logIn(user, function (err) {
+        req.logIn(user, function(err) {
             if (err) {
                 return res.status(500).json({
                     err: 'Could not log in user'
@@ -68,13 +76,13 @@ router.post('/login', function (req, res, next) {
                     "email": user.username
                 }
             });
-            console.log("User Logged In: ",user);
+            console.log("User Logged In: ", user);
         });
     })(req, res, next);
 });
 
 // Log Out
-router.get('/logout', function (req, res) {
+router.get('/logout', function(req, res) {
     req.logout();
     res.status(200).json({
         status: 'User signed out'
@@ -83,17 +91,16 @@ router.get('/logout', function (req, res) {
 
 // Login authentication
 // Will return false if username or password do not match, and true if both do
-router.get('/status', function (req, res) {
+router.get('/status', function(req, res) {
     if (!req.isAuthenticated()) {
         return res.status(200).json({
             status: false
         });
     }
-    console.log("status: ", req._passport.session.user);
-    
+
     res.status(200).json({
         status: true,
-        user: req.user
+        user: {"email": req.user.email}
     });
 });
 

@@ -9,14 +9,14 @@ function homeController($scope, $location, Server, $route) {
     $scope.lastSearced = "";
 
     $scope.showSymbolInfo$ = Server.tradierSymbol$.map(function(symbol){
-        return symbol.quotes.unmatched_symbols === undefined;
+        return symbol !== null && symbol.quotes.unmatched_symbols === undefined;
     }).merge(Server.lastSearched$.map(function(d){
         return false;
     })).startWith(false);
 
 
     $scope.showSymbolFailure$ = Server.tradierSymbol$.map(function(symbol){
-        return symbol.quotes.unmatched_symbols !== undefined;
+        return symbol !== null && symbol.quotes.unmatched_symbols !== undefined;
     }).merge(Server.lastSearched$.map(function(d){
         return false;
     })).startWith(false);

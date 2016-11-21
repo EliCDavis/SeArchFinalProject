@@ -20,6 +20,7 @@
     "angular-aria": "^1.5.8",
     "angular-material": "^1.1.1",
     "angular-route": "^1.5.8",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "*",
     "browserify": "^13.0.1",
     "browserify-ngannotate": "^2.0.0",
