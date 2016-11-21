@@ -1,4 +1,6 @@
 
 var app = require("angular").module('TradeNet');
 
-app.directive('tnSymbolInfo',   require('./symbol-info.js'));
+require("./market");
+require("./profile");
+app.directive('tnToolbar',   require('./toolbar.js'));

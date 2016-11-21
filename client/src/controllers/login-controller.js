@@ -3,8 +3,11 @@ module.exports = loginController;
 /* @ngInject */
 function loginController($scope, $location, AuthService) {
 
+<<<<<<< HEAD
     console.log("Login controller up!");
 
+=======
+>>>>>>> master
     $scope.login = function() {
 
         // initial values
@@ -15,7 +18,11 @@ function loginController($scope, $location, AuthService) {
         AuthService.login($scope.loginForm.username, $scope.loginForm.password)
             // handle success
             .then(function() {
+<<<<<<< HEAD
                 $location.path('/');
+=======
+                $location.path('/market');
+>>>>>>> master
                 $scope.disabled = false;
                 $scope.loginForm = {};
             })
@@ -29,4 +36,11 @@ function loginController($scope, $location, AuthService) {
 
     };
 
+<<<<<<< HEAD
+=======
+    $scope.register = function() {
+        $location.path('/register');
+    }
+
+>>>>>>> master
 }

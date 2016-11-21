@@ -1,0 +1,18 @@
+<md-card>
+    <md-card-title>
+        <md-card-title-text style="margin:10px;">
+            <span class="md-headline" ng-bind="email$"></span>
+            <span class="md-subhead">Balance: <span ng-bind="balance$"></span></span>
+        </md-card-title-text>
+        <md-card-title-media>
+            <div class="md-media-md card-media"><img ng-src="https://www.gravatar.com/avatar/{{emailHash}}?s=200&d=https%3A%2F%2Fwww.gravatar.com%2Favatar%2F6185e19987f5fc4c08e9b3712736a6ad%3Fs%3D200%26f%3Dy"></div>
+        </md-card-title-media>
+    </md-card-title>
+    <md-card-actions style="border-style: ridge; border-width: 1px;" layout="row" layout-align="end center">
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Enter Amount to Deposit..</label>
+            <input ng-model="moneyToDeposit" type="number">
+        </md-input-container>
+        <md-button ng-click="basicInfo.deposit(moneyToDeposit)">Deposit</md-button>
+    </md-card-actions>
+</md-card>

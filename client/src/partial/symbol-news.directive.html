@@ -1,0 +1,13 @@
+<div layout="column">
+    <div md-whiteframe="3" style="padding:10px; margin:10px; background-color:white" ng-repeat="article in symbolnews.news">
+        <p ng-bind="article.data.title"></p>
+        <a ng-href="{{article.data.url}}" target="_blank">Read More..</a>
+    </div>
+
+    <center ng-hide="symbolnews.finnishedLoading$">
+        <h3>Loading News..</h3>
+        <md-progress-circular md-diameter="96"></md-progress-circular>
+        <h4>Excuse us for the wait</h4>
+    </center>
+
+</div>

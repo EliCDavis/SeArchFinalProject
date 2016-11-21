@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="col-md-4">
     <h1>Register</h1>
     <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
@@ -15,3 +16,31 @@
         </div>
     </form>
 </div>
+=======
+
+<div layout="column" flex layout-align="center center" >
+    <div md-whiteframe="3" layout="column" style="background-color:white; padding:20px;">
+
+        <h1>Register</h1>
+        <div role="alert" ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+
+        <md-input-container>
+            <label>Email</label>
+            <input ng-model="registerForm.username" type="email" required>
+        </md-input-container>
+        
+        <md-input-container>
+            <label>Password</label>
+            <input ng-model="registerForm.password" type="password" required>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Re-enter Password</label>
+            <input ng-model="registerForm.password2" type="password" required>
+        </md-input-container>
+
+        <md-button class="md-raised md-primary" ng-click="register()">Create Account</md-button>
+        <md-button md-no-ink class="md-primary" ng-click="login()">Already have an account?</md-button>
+    </div>
+</div>
+>>>>>>> master

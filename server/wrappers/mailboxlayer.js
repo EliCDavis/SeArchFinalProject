@@ -31,7 +31,7 @@ function MailboxLayer(key) {
             console.log('MailboxLayer:validateEmail(' + email + '): ' + tRes.statusCode + ' status');
             
             tRes.on('data', function(d) {
-               successCallback(d);
+               successCallback(JSON.parse(d));
             });
 
         });

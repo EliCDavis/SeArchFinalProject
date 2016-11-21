@@ -1,0 +1,14 @@
+<div style="margin:10px;padding:20px;background-color:white;" md-whiteframe="3" layout="column" flex>
+    <center>
+        <h3>Transaction History</h3>
+    </center>
+
+    <h5 style="margin-bottom:0px" ng-repeat="transaction in transactionHistory.history">
+        <span ng-if="transaction.transactionType ==='purchase'">Bought </span>
+        <span ng-bind="transaction.amount"></span> stock<span ng-if="transaction.amount > 1">s</span> of
+        <span ng-bind="transaction.symbol"></span> at
+        <span ng-bind="transaction.pricePerStock"></span>$ per stock for a total of
+        <span ng-bind="transaction.pricePerStock * transaction.amount"></span>$ on
+        <span ng-bind="transaction.date | date"></span>
+    </h5>
+</div>

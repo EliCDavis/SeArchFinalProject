@@ -12,12 +12,11 @@ function SymbolInfoDirective() {
         'controller': /*@ngInject*/function ($scope, Server) {
 
             var self = this;
-
-            self.name = 'spy';
             self.info = {};
 
-            Server.getSymbol(self.name).safeApply($scope, function(data) {
-                console.log('Info from directive: ', data);
+            Server.tradierSymbol$.filter(function(symbol){
+                return symbol !== null;
+            }).safeApply($scope, function(data) {
                 self.info = data.quotes.quote;
             }).subscribe();
 
