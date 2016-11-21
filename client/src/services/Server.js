@@ -96,6 +96,7 @@ function Server($http) {
             })
             .error(function(data) {
                 resp.onNext({
+                    error: true,
                     data: data
                 });
             });
@@ -115,6 +116,29 @@ function Server($http) {
         });
 
         return resp;
-    }
+    };
+
+    self.makeDeposit = function(amount){
+
+        var resp = new Rx.ReplaySubject(1);
+
+        $http.post('/transaction/deposit', {
+                amount: amount
+            })
+            .success(function(data, status) {
+                resp.onNext({
+                    data: data,
+                    status: status
+                });
+            })
+            .error(function(data) {
+                resp.onNext({
+                    error: true,
+                    data: data
+                });
+            });
+
+        return resp;
+    };
 
 }

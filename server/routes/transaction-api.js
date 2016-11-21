@@ -3,7 +3,46 @@ var router = express.Router();
 
 var User = require('../models/user.js');
 
-// Registration
+router.post('/deposit', function (req, res, next) {
+
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({
+            status: "You must be logged in to make a deposit!"
+        });
+    }
+
+    req.checkBody('amount', 'Invalid number of stock').notEmpty().isInt();
+
+    console.log("Transaction:Deposit(", req.body, ")");
+
+    var check = {
+        checkingType: "deposit",
+        amount: Math.abs(req.body.amount)
+    };
+
+    User.findById(req.user._id, function(err, user) {
+
+        if(err){
+            return res.status(500).json({
+                status: err
+            });
+        }
+
+        user.update({balance: req.user.balance + check.amount, $push: {checking: check}}, function(err, count){
+            if(err){
+                return res.status(500).json({
+                    status: err
+                });
+            }
+            req.user.checking.push(check);
+            req.user.balance += check.amount;
+        });
+
+    });
+
+});
+
+
 router.post('/purchase', function (req, res, next) {
 
     if (!req.isAuthenticated()) {
@@ -36,11 +75,17 @@ router.post('/purchase', function (req, res, next) {
     User.findById(req.user._id, function(err, user) {
 
         if(err){
-
+            return res.status(500).json({
+                status: err
+            });
         }
 
         user.update({balance: req.user.balance - total, $push: {transactions: purchase}}, function(err, count){
-            //console.log("Update: err(", err,"); count(", count,"); curuser:", req.user);
+            if(err){
+                return res.status(500).json({
+                    status: err
+                });
+            }
             req.user.transactions.push(purchase);
             req.user.balance -= total;
         });
