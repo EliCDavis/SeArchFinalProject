@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Transaction = require('../models/transaction.js');
+var User = require('../models/user.js');
 
 // Registration
 router.post('/purchase', function (req, res, next) {
@@ -16,28 +16,36 @@ router.post('/purchase', function (req, res, next) {
     req.checkBody('amount', 'Invalid number of stock').notEmpty().isInt();
     req.checkBody('price', 'Invalid stock price').notEmpty().isInt();
 
+    var total = req.body.amount * req.body.price;
+    // if (total > req.user.balance){
+    //     return res.status(500).json({
+    //         status: 'Error making purchase',
+    //         err: 'You don\'t have enoguh money'
+    //     });
+    // }
+
     console.log("Transaction:Purchase(", req.body, ")");
 
-    var purchase = new Transaction({
+    var purchase = {
         transactionType: "purchase",
         symbol: req.body.symbol,
         amount: req.body.amount,
-        customerEmail: req.user.email,
         pricePerStock: req.body.price
-    });
+    };
 
-    purchase.save(function (err, suc) {
-        if (err) {
-            return res.status(500).json({
-                status: 'Error making purchase',
-                err: err
-            });
+    User.findById(req.user._id, function(err, user) {
+
+        if(err){
+
         }
-        res.status(200).json({
-            status: suc
-        });
-    });
 
+        user.update({balance: req.user.balance - total, $push: {transactions: purchase}}, function(err, count){
+            //console.log("Update: err(", err,"); count(", count,"); curuser:", req.user);
+            req.user.transactions.push(purchase);
+            req.user.balance -= total;
+        });
+
+    });
 
 });
 
@@ -49,18 +57,11 @@ router.get('/view', function (req, res) {
         });
     }
 
-    var query = Transaction.find({ customerEmail: req.user.email });
-    query.select('symbol pricePerStock transactionType amount date');
+    User.findById(req.user._id, function(err, user) {
+        if(err){
 
-    query.exec(function (err, transactions) {
-        if (err) {
-            return res.status(500).json({
-                status: 'Error grabbing transactions',
-                err: err
-            });
         }
-        console.log(transactions);
-        res.status(200).json(transactions);
+        res.status(200).json(user.transactions);
     });
 
 });

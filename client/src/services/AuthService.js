@@ -36,7 +36,6 @@ function AuthService ($q, $timeout, $http) {
             // handle success
             .success(function(data, status) {
                 if (status === 200 && data.status) {
-                    console.log("Logged In: ", data);
                     deferred.resolve();
                 } else {
                     deferred.reject();

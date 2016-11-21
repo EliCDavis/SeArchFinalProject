@@ -24,8 +24,9 @@ function TransactionHistoryDirective() {
 
             $scope.$on('$destroy', function () {
                 _disposableSubscriptions.forEach(function (subscription) {
-                    subscription.unsubscribe();
+                    subscription.dispose();
                 });
+                _disposableSubscriptions = [];
             });
 
         }

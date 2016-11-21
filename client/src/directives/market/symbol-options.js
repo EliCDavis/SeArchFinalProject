@@ -15,8 +15,6 @@ function SymbolOptionsDirective() {
 
             self.purchaseStock = function() {
 
-                console.log(Server.tradierSymbol$.getValue());
-
                 var symbol = Server.tradierSymbol$.getValue();
                 if(symbol === null){
                     return;

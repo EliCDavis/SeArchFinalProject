@@ -54,8 +54,6 @@ router.post('/register', function(req, res, next) {
 router.post('/login', function(req, res, next) {
     passport.authenticate('local.signin', function(err, user, info) {
 
-        console.log("Login info: ", info);
-
         if (err) {
             return next(err);
         }
@@ -76,7 +74,7 @@ router.post('/login', function(req, res, next) {
                     "email": user.username
                 }
             });
-            console.log("User Logged In: ", user);
+            console.log("User:LoggedIn(", user,")");
         });
     })(req, res, next);
 });
@@ -100,7 +98,7 @@ router.get('/status', function(req, res) {
 
     res.status(200).json({
         status: true,
-        user: {"email": req.user.email}
+        user: req.user
     });
 });
 

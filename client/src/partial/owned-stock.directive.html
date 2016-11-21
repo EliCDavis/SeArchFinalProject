@@ -1,0 +1,7 @@
+<div style="margin:10px;padding:20px;background-color:white;" md-whiteframe="3" layout="column" flex>
+    <h3>Currentely Own</h3>
+    <div ng-repeat="stock in ownedStock.currentStock">
+        <span ng-bind="stock.amount + ' - ' + stock.symbol"></span>
+    </div>
+    
+</div>
