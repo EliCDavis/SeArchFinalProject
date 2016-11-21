@@ -1,42 +1,25 @@
 
+var Rx = require('rx');
+
 module.exports = AuthService;
 
 /*@ngInject*/
 function AuthService ($q, $timeout, $http) {
 
-    // create user variable
-    var user = null;
-
-    // return available functions for use in the controllers
-    return ({
-        isLoggedIn: isLoggedIn,
-        getUserStatus: getUserStatus,
-        login: login,
-        logout: logout,
-        register: register
-    });
-
-    function isLoggedIn() {
-        if (user) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    var loggedIn$ = new Rx.BehaviorSubject(null);
 
     function getUserStatus() {
         return $http.get('/user/status')
             // handle success
             .success(function(data) {
-                if (data.status) {
-                    user = true;
-                } else {
-                    user = false;
-                }
+
+                console.log("get status", data);
+                loggedIn$.onNext(data.status?data: null);
+
             })
             // handle error
             .error(function(data) {
-                user = false;
+                loggedIn$.onNext(null);
             });
     }
 
@@ -53,16 +36,17 @@ function AuthService ($q, $timeout, $http) {
             // handle success
             .success(function(data, status) {
                 if (status === 200 && data.status) {
-                    user = true;
                     deferred.resolve();
                 } else {
-                    user = false;
                     deferred.reject();
                 }
+
+                loggedIn$.onNext(data.user);
+                
             })
             // handle error
             .error(function(data) {
-                user = false;
+                loggedIn$.onNext(null);
                 deferred.reject();
             });
 
@@ -80,14 +64,14 @@ function AuthService ($q, $timeout, $http) {
         $http.get('/user/logout')
             // handle success
             .success(function(data) {
-                user = false;
                 deferred.resolve();
             })
             // handle error
             .error(function(data) {
-                user = false;
                 deferred.reject();
             });
+
+        loggedIn$.onNext(null);
 
         // return promise object
         return deferred.promise;
@@ -101,7 +85,7 @@ function AuthService ($q, $timeout, $http) {
 
         // send a post request to the server
         $http.post('/user/register', {
-                username: username,
+                email: username,
                 password: password
             })
             // handle success
@@ -123,5 +107,14 @@ function AuthService ($q, $timeout, $http) {
         return deferred.promise;
 
     }
+
+    // return available functions for use in the controllers
+    return ({
+        loggedIn$: loggedIn$,
+        getUserStatus: getUserStatus,
+        login: login,
+        logout: logout,
+        register: register
+    });
 
 }

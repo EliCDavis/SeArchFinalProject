@@ -3,52 +3,57 @@ var router = express.Router();
 var passport = require('passport');
 var config = require('../../config.json');
 
-var MailboxlayerWrapper = new(require('../wrappers/mailboxlayer'))(config.mailboxKey);
+var MailboxlayerWrapper = new (require('../wrappers/mailboxlayer'))(config.mailboxKey);
 
 var User = require('../models/user.js');
 
 // Registration
-router.post('/register', function(req, res) {
+router.post('/register', function(req, res, next) {
 
-    MailboxlayerWrapper.validateEmail(req.body.username, function(succ){
+    MailboxlayerWrapper.validateEmail(req.body.email, function(succ) {
 
-        if(succ["smtp_check"] === false){
-            console.log("WAS FALSE");
+        if (succ.smtp_check === false) {
             return res.status(500).json({
-                    err: "Invalid email"
-                });
+                err: "Invalid email"
+            });
         }
 
-        User.register(new User({
-            username: req.body.username
-        }), req.body.password, function(err, account) {
-            
+        passport.authenticate('local.signup', function(err, user, info) {
+
             if (err) {
                 console.log("Error Registering Account: (", err, ")");
                 return res.status(500).json({
                     err: err
                 });
             }
-            passport.authenticate('local')(req, res, function() {
-                return res.status(200).json({
-                    status: 'New user registered'
-                });
-            });
-        });
 
-    }, function(err){
+            if (user === false) {
+                console.log("Error Registering Account: (", info, ")");
+                return res.status(500).json({
+                    err: info.message
+                });
+            }
+
+            return res.status(200).json({
+                status: 'New user registered'
+            });
+
+        })(req, res, next);
+
+    }, function(err) {
         console.log("Error hitting mailbox, err: ", err);
         return res.status(500).json({
             err: err
         });
     });
 
-    
+
 });
 
 // Login
 router.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+    passport.authenticate('local.signin', function(err, user, info) {
+
         if (err) {
             return next(err);
         }
@@ -64,8 +69,12 @@ router.post('/login', function(req, res, next) {
                 });
             }
             res.status(200).json({
-                status: 'User signed in'
+                status: 'User signed in',
+                user: {
+                    "email": user.username
+                }
             });
+            console.log("User:LoggedIn(", user,")");
         });
     })(req, res, next);
 });
@@ -86,8 +95,10 @@ router.get('/status', function(req, res) {
             status: false
         });
     }
+
     res.status(200).json({
-        status: true
+        status: true,
+        user: req.user
     });
 });
 

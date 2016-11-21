@@ -14,7 +14,9 @@ function SymbolInfoDirective() {
             var self = this;
             self.info = {};
 
-            Server.tradierSymbol$.safeApply($scope, function(data) {
+            Server.tradierSymbol$.filter(function(symbol){
+                return symbol !== null;
+            }).safeApply($scope, function(data) {
                 self.info = data.quotes.quote;
             }).subscribe();
 
