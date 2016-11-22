@@ -1,2 +1,15 @@
+<div flex layout="row">
+    <md-input-container class="md-block" flex-gt-sm>
+        <label>Amount to purchase</label>
+        <input type="number" ng-model="numStockToPurchase">
+    </md-input-container>
+    <md-button ng-click="symbolOptions.purchaseStock(numStockToPurchase)">Purchase</md-button>
+</div>
 
-<md-button ng-click="symbolOptions.purchaseStock()">Purchase</md-button>
+<div ng-show="symbolOptions.canSellStock$" flex="50"  layout="row">
+    <md-input-container class="md-block" flex-gt-sm>
+        <label>Amount to Sell</label>
+        <input type="number" ng-model="numStockToSell">
+    </md-input-container>
+    <md-button ng-click="symbolOptions.sellStock(numStockToSell)">Sell</md-button>
+</div>

@@ -36,6 +36,7 @@ router.post('/deposit', function (req, res, next) {
             }
             req.user.checking.push(check);
             req.user.balance += check.amount;
+            res.status(200).json(user.balance);
         });
 
     });
@@ -56,12 +57,12 @@ router.post('/purchase', function (req, res, next) {
     req.checkBody('price', 'Invalid stock price').notEmpty().isInt();
 
     var total = req.body.amount * req.body.price;
-    // if (total > req.user.balance){
-    //     return res.status(500).json({
-    //         status: 'Error making purchase',
-    //         err: 'You don\'t have enoguh money'
-    //     });
-    // }
+    if (total > req.user.balance){
+        return res.status(500).json({
+            status: 'Error making purchase',
+            err: 'You don\'t have enoguh money'
+        });
+    }
 
     console.log("Transaction:Purchase(", req.body, ")");
 
@@ -88,6 +89,7 @@ router.post('/purchase', function (req, res, next) {
             }
             req.user.transactions.push(purchase);
             req.user.balance -= total;
+             res.status(200).json(user.transactions);
         });
 
     });

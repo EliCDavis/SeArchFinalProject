@@ -1,14 +1,29 @@
 <md-toolbar class="md-hue-2">
     <div class="md-toolbar-tools">
-        
+
         <h2>
             Tradenet
         </h2>
 
         <span flex></span>
 
-        <md-button ng-show="toolbar.loggedIn$" class="md-raised md-primary" ng-click='toolbar.viewProfile()'>Profile</md-button>
-        <md-button ng-show="toolbar.loggedIn$" class="md-raised md-primary" ng-click='toolbar.logout()'>Log Out</md-button>
+
+        <md-menu ng-show="toolbar.loggedIn$">
+            <md-button md-menu-origin aria-label="Open User Menu" ng-bind="toolbar.buttonTitle$" ng-click="toolbar.openMenu($mdOpenMenu, $event)"></md-button>
+            <md-menu-content width="4">
+
+                <md-menu-item>
+                    <md-button ng-click='toolbar.viewProfile()'>View Profile</md-button>
+                </md-menu-item>
+                
+                <md-menu-divider></md-menu-divider>
+
+                <md-menu-item>
+                    <md-button ng-click='toolbar.logout()'>Log Out</md-button>
+                </md-menu-item>
+
+            </md-menu-content>
+        </md-menu>
 
     </div>
 </md-toolbar>

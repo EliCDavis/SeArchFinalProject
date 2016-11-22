@@ -6,7 +6,7 @@ module.exports = Server;
 /*
  * @ngInject
  */
-function Server($http) {
+function Server($http, AuthService) {
 
     var self = this;
 
@@ -93,6 +93,7 @@ function Server($http) {
                     data: data,
                     status: status
                 });
+                AuthService.getUserStatus();
             })
             .error(function(data) {
                 resp.onNext({
@@ -130,6 +131,7 @@ function Server($http) {
                     data: data,
                     status: status
                 });
+                AuthService.getUserStatus();
             })
             .error(function(data) {
                 resp.onNext({

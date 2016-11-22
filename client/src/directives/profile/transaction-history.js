@@ -10,7 +10,7 @@ function TransactionHistoryDirective() {
         'restrict': 'E',
         'templateUrl': 'partial/transaction-history.directive.html',
         'controllerAs': 'transactionHistory',
-        'controller': /*@ngInject*/function ($scope, Server) {
+        'controller': /*@ngInject*/function ($scope, Server, User) {
 
             var self = this;
 
@@ -18,8 +18,8 @@ function TransactionHistoryDirective() {
 
             self.history = [];
 
-            _disposableSubscriptions.push(Server.viewTransactions().safeApply($scope, function (purchases) {
-                self.history = purchases.reverse();
+            _disposableSubscriptions.push(User.moneyHistory$.safeApply($scope, function (purchases) {
+                self.history = purchases;
             }).subscribe());
 
             $scope.$on('$destroy', function () {

@@ -36,6 +36,9 @@ function homeController($scope, $location, Server, $route) {
     if($route.current.params.symbol){
         $scope.searchQuery = $route.current.params.symbol;
         var query = $scope.searchQuery.trim().toUpperCase();
+        if(!query || query === ""){
+            return;
+        }
         Server.search(query);
         $scope.lastSearced = query;
     }

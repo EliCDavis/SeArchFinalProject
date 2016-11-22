@@ -45,7 +45,7 @@ function SymbolGraphingDirective() {
 
             // Extracting time series data on load
             Server.symbolTimeSeries$.filter(function (data) {
-                return data.quandl_error === undefined;
+                return data.quandl_error === undefined && data.dataset && data.dataset.data;
             }).map(function (data) {
 
                 data = data.dataset;
@@ -59,6 +59,13 @@ function SymbolGraphingDirective() {
                 data.data.reverse();
 
                 var closeIndex = data.column_names.indexOf("Adj. Close");
+                var dateIndex = data.column_names.indexOf("Date");
+                
+                // The fucking data sometimes comes in reversed and sometimes not so we need to check and correct it before being displayed
+                if(data.data[0][dateIndex] > data.data[1][dateIndex]) {
+                    data.data.reverse();
+                }
+
                 var lineData = data.data.map(function(entry){
                     return entry[closeIndex];
                 });
@@ -90,7 +97,6 @@ function SymbolGraphingDirective() {
                     ]
                 };
 
-                var dateIndex = data.column_names.indexOf("Date");
                 graphData.labels = data.data.map(function(entry){
                     return entry[dateIndex];
                 });

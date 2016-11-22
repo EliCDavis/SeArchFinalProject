@@ -17,8 +17,12 @@ function User(Server, AuthService) {
         return d !== null && !!d.user;
     }).map(function(d){
         return d.user;
-    }).share();
+    });
 
+
+    /**
+     * What stocks the user currentely owns
+     */
     self.currentStocks$ = _user$.map(function (user) {
         var stocksObj = {};
 
@@ -46,6 +50,10 @@ function User(Server, AuthService) {
 
     });
 
+
+    /**
+     * Combination of buying and selling of stock as well as transactions with their bank account
+     */
     self.moneyHistory$ = _user$.map(function(user){
         return user.transactions.map(function(transaction){
             return { transaction: transaction };
@@ -56,8 +64,6 @@ function User(Server, AuthService) {
             b = new Date(b.check? b.check.date: b.transaction.date);
             return a>b ? -1 : a<b ? 1 : 0;
         });
-    }).subscribe(function(history){
-        console.log(history);
     });
 
 }

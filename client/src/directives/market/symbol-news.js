@@ -28,7 +28,9 @@ function SymbolNewsDirective() {
             })).startWith(false).share();
 
 
-            Server.symbolNews$.safeApply($scope, function(data) {
+            Server.symbolNews$.filter(function(data){
+                return data && data.data && data.data.children;
+            }).safeApply($scope, function(data) {
                 self.news = data.data.children;
             }).subscribe();
 
