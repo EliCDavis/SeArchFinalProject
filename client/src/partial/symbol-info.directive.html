@@ -1,15 +1,18 @@
-
-<h1 ng-bind="symbolInfo.info.symbol"></h1>
+<span ng-bind="symbolInfo.info.symbol" style="font-size:52px; font-weight:bold"></span>
 
 <span>
-Price: <span ng-bind="symbolInfo.info.prevclose"></span>$
+    <b>Price</b><br>
+    $<span ng-bind="symbolInfo.info.prevclose"></span>
 </span>
 
 <span>
-Change: <span ng-bind="symbolInfo.info.change"></span> (<span ng-bind="symbolInfo.info.change_percentage"></span>%)
+    <b>Change</b><br>
+    <span ng-class="{green : symbolInfo.info.change >= 0, red : symbolInfo.info.change < 0}">
+        <span ng-bind="symbolInfo.info.change"></span> (<span ng-bind="symbolInfo.info.change_percentage"></span>%)
+    </span>
 </span>
 
 <span>
-
-Volume: <span ng-bind="symbolInfo.info.volume | number"></span>
+    <b>Volume</b><br>
+    <span ng-bind="symbolInfo.info.volume | number"></span>
 </span>
