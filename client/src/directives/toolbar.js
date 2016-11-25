@@ -36,7 +36,6 @@ function ToolbarDirective() {
             };
 
             self.buttonTitle$ = AuthService.loggedIn$.filter(function(d){
-                console.log("buttonTitle: ", d);
                 return d !== null && d.user;
             }).map(function(d){
                 return d.user.email + " ( " + $filter('currency')(d.user.balance) + " )";

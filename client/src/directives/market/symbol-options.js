@@ -9,7 +9,7 @@ function SymbolOptionsDirective() {
         'restrict': 'E',
         'templateUrl': 'partial/symbol-options.directive.html',
         'controllerAs': 'symbolOptions',
-        'controller': /*@ngInject*/function ($scope, Server, User) {
+        'controller': /*@ngInject*/function ($scope, Server, User, $mdToast, observeOnScope) {
 
             var self = this;
 
@@ -36,10 +36,32 @@ function SymbolOptionsDirective() {
             };
 
             self.sellStock = function(x){
-                console.log("Sell: ", x);
+
+                var amount = 1;
+                if(!isNaN(x)){
+                    amount = Math.max(0, Math.round(parseInt(x)));
+                } else {
+                    $mdToast.showSimple("Error making sell");
+                    return;
+                }
+
+                if(amount === 0){
+                    $mdToast.showSimple("You must enter in atleast 1 stock to sell");
+                    return;
+                }
+
+                var symbol = Server.tradierSymbol$.getValue();
+                if(symbol === null){
+                    return;
+                }
+                symbol = symbol.quotes.quote;
+
+                Server.sellStock(symbol.symbol, symbol.prevclose, amount).subscribe(function(res){
+                    console.log("Response for sell: ", res);
+                });
             }
 
-            self.canSellStock$ = User.currentStocks$.combineLatest(
+            self.ownOfStock$ = User.currentStocks$.combineLatest(
                 Server.tradierSymbol$.filter(function(symbol){
                             return symbol !== null;
                         }).map(function(data) {
@@ -49,13 +71,25 @@ function SymbolOptionsDirective() {
 
                     for(var i  = 0; i < stocks.length; i ++){
                         if(stocks[i].symbol === symbol.symbol){
-                            return true;
+                            return stocks[i].amount;
                         }
                     }
 
-                    return false;
+                    return 0;
 
                 });
+
+            self.canSellStock$ = self.ownOfStock$.map(function(amount){
+                return amount>0;
+            });
+                
+            observeOnScope($scope, 'numStockToSell').combineLatest(
+                self.ownOfStock$,
+                function (change, amount){
+                    return Math.max(0, Math.min(change.newValue, amount));
+                }).safeApply($scope, function(change){
+                    $scope.numStockToSell = change;
+            }).subscribe();
             
         }
     };

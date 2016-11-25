@@ -43,6 +43,51 @@ router.post('/deposit', function (req, res, next) {
 
 });
 
+router.post('/sell', function (req, res, next) {
+
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({
+            status: "You must be logged in to make a purchase!"
+        });
+    }
+
+    req.checkBody('symbol', 'Invalid symbol').notEmpty();
+    req.checkBody('amount', 'Invalid number of stock').notEmpty().isInt();
+    req.checkBody('price', 'Invalid stock price').notEmpty().isInt();
+
+    console.log("Transaction:Sell(", req.body, ")");
+    var total = req.body.amount * req.body.price;
+
+
+    var purchase = {
+        transactionType: "sale",
+        symbol: req.body.symbol,
+        amount: req.body.amount,
+        pricePerStock: req.body.price
+    };
+
+    User.findById(req.user._id, function(err, user) {
+
+        if(err){
+            return res.status(500).json({
+                status: err
+            });
+        }
+
+        user.update({balance: req.user.balance + total, $push: {transactions: purchase}}, function(err, count){
+            if(err){
+                return res.status(500).json({
+                    status: err
+                });
+            }
+            req.user.transactions.push(purchase);
+            req.user.balance += total;
+            res.status(200).json(user.transactions);
+        });
+
+    });
+
+});
 
 router.post('/purchase', function (req, res, next) {
 

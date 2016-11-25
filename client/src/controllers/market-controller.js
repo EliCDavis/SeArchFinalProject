@@ -16,7 +16,7 @@ function homeController($scope, $location, Server, $route) {
 
 
     $scope.showSymbolFailure$ = Server.tradierSymbol$.map(function(symbol){
-        return symbol !== null && symbol.quotes.unmatched_symbols !== undefined;
+        return symbol !== null && symbol.quotes && symbol.quotes.unmatched_symbols !== undefined;
     }).merge(Server.lastSearched$.map(function(d){
         return false;
     })).startWith(false);
