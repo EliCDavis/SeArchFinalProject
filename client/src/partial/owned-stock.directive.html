@@ -1,7 +1,7 @@
 <div style="margin:10px;padding:20px;background-color:white;" md-whiteframe="3" layout="column" flex>
-    <h3>Currentely Own</h3>
-    <div ng-repeat="stock in ownedStock.currentStock">
-        <span ng-bind="stock.amount + ' - ' + stock.symbol"></span>
+    <center><h3>Currentely Own</h3></center>
+    <div layout="column" ng-repeat="stock in ownedStock.currentStock">
+        <md-button class="md-raised md-primary" aria-label="button-label" ng-click="ownedStock.viewStock(stock.symbol)" ng-bind="stock.amount + ' - ' + stock.symbol"> </md-button>
     </div>
     
 </div>

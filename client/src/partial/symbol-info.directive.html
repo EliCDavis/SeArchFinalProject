@@ -16,3 +16,8 @@
     <b>Volume</b><br>
     <span ng-bind="symbolInfo.info.volume | number"></span>
 </span>
+
+<span ng-show="symbolInfo.displayOwn$">
+    <b>Own</b><br>
+    <span ng-bind="symbolInfo.own$"></span>
+</span>

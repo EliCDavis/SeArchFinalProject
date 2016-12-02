@@ -13,42 +13,23 @@ function SymbolGraphingDirective() {
 
             var self = this;
 
-            // Whether or not we've finished loading
-            self.finnishedLoading$ = Server.lastSearched$.map(function(d){
-                return false;
-            }).merge(Server.symbolTimeSeries$.map(function (d) {
-                return true;
-            })).startWith(false).share();
+            $scope.finnishedLoading = false;
 
-
-            // Whether or not we should display the chart
-            self.displayChart$ = Server.symbolTimeSeries$.map(function (data) {
-                return data.quandl_error === undefined;
-            }).combineLatest(self.finnishedLoading$,function(noError, finished){
-                return noError? finished : false;
-            }).startWith(false);
-
-
-            // Whether or not the loaded symbol has data to display
-            self.noDataToDisplay$ = self.finnishedLoading$.combineLatest(self.displayChart$, function(finished, display){
-                return finished? !display : false;
-            }).startWith(false);
-
-
-            // Whether or not we had an error trying to load time series data
-            self.errorLoading$ = Server.lastSearched$.map(function(d){
-                return false;
-            }).merge(Server.symbolTimeSeries$.map(function (d) {
-                return data.quandl_error !== undefined;
-            })).startWith(false).share();
-
+            Server.symbolTimeSeries$.safeApply($scope, function(data){
+                $scope.finnishedLoading = true;
+            }).subscribe();
+            
 
             // Extracting time series data on load
             Server.symbolTimeSeries$.filter(function (data) {
-                return data.quandl_error === undefined;
+                return data.quandl_error === undefined && data.dataset && data.dataset.data;
             }).map(function (data) {
 
                 data = data.dataset;
+
+                if(!data.data || data.data.length < 10){
+                    return null;
+                }
 
                 var newData = [];
                 for (var i = 0; i < data.data.length; i +=10) {
@@ -59,6 +40,13 @@ function SymbolGraphingDirective() {
                 data.data.reverse();
 
                 var closeIndex = data.column_names.indexOf("Adj. Close");
+                var dateIndex = data.column_names.indexOf("Date");
+                
+                // The fucking data sometimes comes in reversed and sometimes not so we need to check and correct it before being displayed
+                if(data.data[0][dateIndex] > data.data[1][dateIndex]) {
+                    data.data.reverse();
+                }
+
                 var lineData = data.data.map(function(entry){
                     return entry[closeIndex];
                 });
@@ -90,7 +78,6 @@ function SymbolGraphingDirective() {
                     ]
                 };
 
-                var dateIndex = data.column_names.indexOf("Date");
                 graphData.labels = data.data.map(function(entry){
                     return entry[dateIndex];
                 });
@@ -98,6 +85,12 @@ function SymbolGraphingDirective() {
                 return graphData;
 
             }).safeApply($scope, function (data) {
+
+                if(data === null){
+                    self.noDataToDisplay = true;
+                    return;
+                }
+
                 self.info = data;
                 $scope.myData = data;
             }).subscribe();

@@ -35,7 +35,13 @@ function BasicInfoDirective() {
             }).subscribe();
 
             self.deposit = function(x){
+                if(isNaN(x)){
+                    return;
+                }
                 console.log("Depositing ", x, " money..");
+                Server.makeDeposit(Math.abs(x)).subscribe(function(x){
+                    console.log("dep resp: ",x);
+                });
             };
 
         }

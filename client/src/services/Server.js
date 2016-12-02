@@ -6,7 +6,7 @@ module.exports = Server;
 /*
  * @ngInject
  */
-function Server($http) {
+function Server($http, AuthService, $mdToast) {
 
     var self = this;
 
@@ -89,13 +89,53 @@ function Server($http) {
                 amount: amount
             })
             .success(function(data, status) {
+
+                $mdToast.showSimple('Succesfully Purchased Stocks!');
+
                 resp.onNext({
                     data: data,
                     status: status
                 });
+                AuthService.getUserStatus();
             })
             .error(function(data) {
+
+                $mdToast.showSimple('Error Purchasing Stocks!');
+
                 resp.onNext({
+                    error: true,
+                    data: data
+                });
+            });
+
+        return resp;
+    };
+
+    self.sellStock = function(symbol, price, amount){
+
+        var resp = new Rx.ReplaySubject(1);
+
+        $http.post('/transaction/sell', {
+                symbol: symbol,
+                price: price,
+                amount: amount
+            })
+            .success(function(data, status) {
+
+                $mdToast.showSimple('Succesfully Sold Stocks!');
+
+                resp.onNext({
+                    data: data,
+                    status: status
+                });
+                AuthService.getUserStatus();
+            })
+            .error(function(data) {
+
+                $mdToast.showSimple('Error Selling Stocks!');
+                
+                resp.onNext({
+                    error: true,
                     data: data
                 });
             });
@@ -115,6 +155,36 @@ function Server($http) {
         });
 
         return resp;
-    }
+    };
+
+    self.makeDeposit = function(amount){
+
+        var resp = new Rx.ReplaySubject(1);
+
+        $http.post('/transaction/deposit', {
+                amount: amount
+            })
+            .success(function(data, status) {
+
+                $mdToast.showSimple('Succesfully Depsotited $' +amount+'!');
+
+                resp.onNext({
+                    data: data,
+                    status: status
+                });
+                AuthService.getUserStatus();
+            })
+            .error(function(data) {
+
+                $mdToast.showSimple('Unable to deposit money');
+
+                resp.onNext({
+                    error: true,
+                    data: data
+                });
+            });
+
+        return resp;
+    };
 
 }

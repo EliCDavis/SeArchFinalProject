@@ -29,6 +29,10 @@ function loginController($scope, $location, AuthService) {
 
     $scope.register = function() {
         $location.path('/register');
-    }
+    };
+
+   if(AuthService.loggedIn$.getValue() && AuthService.loggedIn$.getValue().user){
+       $location.path('/market');
+   }
 
 }

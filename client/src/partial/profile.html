@@ -1,13 +1,13 @@
 
 
 <div layout="column"  flex>
-    <div layout="row" flex>
-        <div flex></div>
+    <div layout="row" layout-xs="column" flex>
+        <div flex hide-xs></div>
         <div>
             <tn-basic-profile-info ></tn-basic-profile-info>
-            <tn-owned-stock></tn-owned-stock>        
+            <tn-owned-stock hide-xs></tn-owned-stock>        
         </div>
-        <tn-transaction-history layout="column"></tn-transaction-history>
-        <div flex></div>
+        <tn-transaction-history flex-xs layout="column"></tn-transaction-history>
+        <div hide-xs flex></div>
     </div>
 </div>

@@ -28,7 +28,15 @@ function SymbolNewsDirective() {
             })).startWith(false).share();
 
 
-            Server.symbolNews$.safeApply($scope, function(data) {
+            Server.symbolNews$.filter(function(data){
+                var valid = data && data.data && data.data.children;
+
+                if (!valid) {
+                    $mdToast.showSimple('Unable to load news!');
+                }
+
+                return valid;
+            }).safeApply($scope, function(data) {
                 self.news = data.data.children;
             }).subscribe();
 
