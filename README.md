@@ -1,8 +1,9 @@
 # SeArchFinalProject
 Software Architecture final project Fall 2016
+![Market Preview](http://i.imgur.com/DDg6i8W.png)
 
 ## Dev Setup
-Devlopment requires node.js to be installed on the user's machine.  The server uses a config.json file for things such as api keys and other personal settings.
+Devlopment requires node.js to be installed on the user's machine.  The server uses a config.json file for things such as api keys and other personal settings.  This website requires the use of [MongoDB](https://www.mongodb.com/).
 
 Assuming no prior setup.
 ```
