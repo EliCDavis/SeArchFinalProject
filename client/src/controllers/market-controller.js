@@ -8,6 +8,12 @@ function homeController($scope, $location, Server, $route) {
 
     $scope.lastSearced = "";
 
+    $scope.currentlySearching = false;
+
+    Server.tradierSymbol$.safeApply($scope,function(){
+        $scope.currentlySearching = false;
+    }).subscribe();
+
     $scope.showSymbolInfo$ = Server.tradierSymbol$.map(function(symbol){
         return symbol !== null && symbol.quotes.unmatched_symbols === undefined;
     }).merge(Server.lastSearched$.map(function(d){
@@ -21,6 +27,7 @@ function homeController($scope, $location, Server, $route) {
         return false;
     })).startWith(false);
 
+    
 
     $scope.currentlySearching$ = Server.tradierSymbol$.map(function(symbol){
         return false;
@@ -41,6 +48,7 @@ function homeController($scope, $location, Server, $route) {
         }
         Server.search(query);
         $scope.lastSearced = query;
+        $scope.currentlySearching = true;
     }
 
 }

@@ -20,6 +20,9 @@ function ToolbarDirective() {
                 $mdOpenMenu(ev);
             };
  
+            self.toMarket = function(){
+                $location.path('/market');
+            };
 
             self.logout = function() {
 

@@ -1,6 +1,6 @@
 <center>
     <canvas 
-        ng-show="symbolGraph.displayChart$" 
+        ng-show="myData.labels.length > 0" 
         tc-chartjs chart-type="line" 
         chart-data="myData" 
         chart-options="myOptions"
@@ -9,13 +9,13 @@
 
 <div flex layout="column" layout-align="center center">
 
-    <center ng-hide="symbolGraph.finnishedLoading$">
+    <center ng-hide="finnishedLoading">
         <h3>Loading Time Series Data..</h3>
         <md-progress-circular md-diameter="96"></md-progress-circular>
         <h4>Excuse us for the wait</h4>
     </center>
 
-    <center ng-show="symbolGraph.noDataToDisplay$">
+    <center ng-show="!(myData.labels.length > 0)  && finnishedLoading">
         <h3>No Time Series Data For This Symbol</h3>
         <h4>Sorry about that</h4>
     </center>

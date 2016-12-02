@@ -63,7 +63,7 @@ function SymbolOptionsDirective() {
 
             self.ownOfStock$ = User.currentStocks$.combineLatest(
                 Server.tradierSymbol$.filter(function(symbol){
-                            return symbol !== null;
+                            return symbol !== null && symbol.quotes.quote;
                         }).map(function(data) {
                             return data.quotes.quote;
                         }), 

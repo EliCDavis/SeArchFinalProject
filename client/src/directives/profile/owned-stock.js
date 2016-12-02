@@ -10,7 +10,7 @@ function OwnedStockDirective() {
         'restrict': 'E',
         'templateUrl': 'partial/owned-stock.directive.html',
         'controllerAs': 'ownedStock',
-        'controller': /*@ngInject*/function ($scope, User) {
+        'controller': /*@ngInject*/function ($scope, User, $location) {
 
             var self = this;
 
@@ -19,6 +19,10 @@ function OwnedStockDirective() {
             User.currentStocks$.safeApply($scope, function(stock){
                 self.currentStock = stock;
             }).subscribe();
+
+            self.viewStock = function(symbol){
+                $location.path('/market/'+symbol);
+            };
 
         }
     };

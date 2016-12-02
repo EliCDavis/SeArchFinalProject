@@ -23,7 +23,7 @@ function SymbolInfoDirective() {
             // how many we own of the current symbol we're looking at
             self.own$ = User.currentStocks$.combineLatest(
                 Server.tradierSymbol$.filter(function(symbol){
-                    return symbol !== null;
+                    return symbol !== null && symbol.quotes.quote;
                 }),
                 function(currentStocks, currentSymbol){
 

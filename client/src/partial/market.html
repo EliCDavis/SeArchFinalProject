@@ -22,9 +22,9 @@
 
 	</div>
 
-	<div ng-show="currentlySearching$" layout="column" layout-align="center center" flex>
+	<div ng-show="currentlySearching" layout="column" layout-align="center center" flex>
 
-		<center ng-show="currentlySearching$">
+		<center >
 			<h3>Searching For Symbol...</h3>
 			<md-progress-circular md-diameter="96"></md-progress-circular>
 			<h4>Excuse us for the wait</h4>
@@ -32,12 +32,12 @@
 
 	</div>
 
-	<div ng-show="showSymbolInfo$" layout="row" flex>
+	<div ng-show="showSymbolInfo$" layout-xs="column" layout="row" flex>
 
 		<div layout="column" flex>
 
 			<div md-whiteframe="6" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;">
-				<tn-symbol-info layout="row" layout-align="space-around center"></tn-symbol-info>
+				<tn-symbol-info layout="row" layout-xs="column" layout-align="space-around center"></tn-symbol-info>
 			</div>
 
 			<tn-symbol-graph layout="column" flex md-whiteframe="3" style="padding:15px; margin:10px; background-color:white; overflow:auto;"></tn-symbol-graph>
@@ -46,14 +46,14 @@
 
 		</div>
 
-		<div layout="column" flex="40">
+		<div layout="column" flex-xs="100" flex="40">
 
-			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex="50" layout="column">
+			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex-xs="100" flex="50" layout="column">
 				<h3> Tweets</h3>
 				<tn-symbol-tweets style="padding:10px; overflow:auto;"></tn-symbol-tweets>
 			</div>
 
-			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex="50" layout="column">
+			<div md-whiteframe="3" style="margin: 10px; background-color: rgb(255, 255, 255); padding: 10px;" flex-xs="100" flex="50" layout="column">
 				<h3> News </h3>
 				<tn-symbol-news style="padding:10px; overflow:auto;"></tn-symbol-news>
 			</div>
