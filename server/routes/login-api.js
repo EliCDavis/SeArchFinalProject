@@ -12,7 +12,9 @@ router.post('/register', function(req, res, next) {
 
     MailboxlayerWrapper.validateEmail(req.body.email, function(succ) {
 
-        if (succ.smtp_check === false) {
+        console.log(succ);
+
+        if (succ.format_valid === false) {
             return res.status(500).json({
                 err: "Invalid email"
             });
@@ -21,14 +23,14 @@ router.post('/register', function(req, res, next) {
         passport.authenticate('local.signup', function(err, user, info) {
 
             if (err) {
-                console.log("Error Registering Account: (", err, ")");
+                console.log("Error Registering Account[local.signup.err]: (", err, ")");
                 return res.status(500).json({
-                    err: err
+                    err: "User already exists!"
                 });
             }
 
             if (user === false) {
-                console.log("Error Registering Account: (", info, ")");
+                console.log("Error Registering Account[local.signup.user]: (", info, ")");
                 return res.status(500).json({
                     err: info.message
                 });

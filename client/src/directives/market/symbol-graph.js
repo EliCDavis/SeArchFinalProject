@@ -27,7 +27,7 @@ function SymbolGraphingDirective() {
 
                 data = data.dataset;
 
-                if(!data.data || data.data.length < 10){
+                if(!data.data || data.data.length < 20){
                     return null;
                 }
 

@@ -37,6 +37,8 @@ User.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+    usernameField: 'email'
+});
 
 module.exports = mongoose.model('User', User);
